@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TypeFinder</name>
+    </assembly>
+    <members>
+        <member name="P:TypeFinder.IInAssemblyFinder.WithParameterlessConstructor">
+            <summary>
+            Filters types that have a parameterless constructor.
+            </summary>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.Excluding(System.Type[])">
+            <summary>
+            Excludes some hard-coded types from the result.
+            </summary>
+            <param name="types">The types to exclude.</param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.ThatInherit(System.Type)">
+            <summary>
+            Filters types that inherit or implement <paramref name="type"/>. This is checked using <see cref="M:System.Type.IsAssignableFrom(System.Type)"/>, so both class and interface types can be used.
+            </summary>
+            <param name="type">The type of the class or interface types must inherit.</param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.ThatInherit``1">
+            <summary>
+            Filters types that inherit or implement <paramref name="type"/>. This is checked using <see cref="M:System.Type.IsAssignableFrom(System.Type)"/>, so both class and interface types can be used.
+            </summary>
+            <typeparam name="T">The type of the class or interface types must inherit.</typeparam>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.ThatInheritGenericType(System.Type)">
+            <summary>
+            Filters types that inherit the generic type <paramref name="genericType"/>, for example <see cref="T:System.Collections.Generic.List`1"/>.
+            </summary>
+            <param name="genericType">The generic type that types must inherit, for example: <code>typeof(List&lt;&gt;)</code></param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.WhoseNameMatches(System.String)">
+            <summary>
+            Filters types whose <see cref="P:System.Reflection.MemberInfo.Name"/> matches the specified regex pattern.
+            </summary>
+            <param name="regex">The regex pattern to match against.</param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.WhoseFullNameMatches(System.String)">
+            <summary>
+            Filters types whose <see cref="P:System.Type.FullName"/> matches the specified regex pattern.
+            </summary>
+            <param name="regex">The regex pattern to match against.</param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.InNamespace(System.String)">
+            <summary>
+            Filters types whose <see cref="P:System.Type.Namespace"/> exactly matches <paramref name="ns"/>.
+            </summary>
+            <param name="ns">The namespace that types must have.</param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.WithAttribute(System.Type)">
+            <summary>
+            Filters types that have the <paramref name="attrType"/> attribute.
+            </summary>
+            <param name="attrType">The attribute that types must define.</param>
+        </member>
+        <member name="M:TypeFinder.IInAssemblyFinder.WithAttribute``1">
+            <summary>
+            Filters types that have the <typeparamref name="T"/> attribute.
+            </summary>
+            <typeparam name="T">The attribute that types must define.</typeparam>
+        </member>
+    </members>
+</doc>

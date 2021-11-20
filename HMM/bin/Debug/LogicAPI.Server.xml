@@ -1,0 +1,487 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LogicAPI.Server</name>
+    </assembly>
+    <members>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.Initialize">
+            <summary>
+            Called once when the component is created.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.DoLogicUpdate">
+            <summary>
+            This method will is called once each time the game performs a logic update if the component is queued.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.QueueLogicUpdate">
+            <summary>
+            The component will have a logic update on the next logic tick after this method is called.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.GetOutputStartStates">
+            <summary> 
+            By default, all outputs start off. Use this to make an output start on. 
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.InputAtIndexShouldTriggerComponentLogicUpdates(System.Int32)">
+            <summary>
+            By default, all inputs on a component will trigger a component logic update when they change state. If your component
+            has inputs that do not affect the logic -- such as the side inputs of Relays -- then you can save on performance and in
+            some cases correct undesirable behavior with this method, by returning false for your non-logic-affecting input indexes.
+            
+            If your component does not do anything at all on logic updates, just return false here.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.OnCustomDataUpdated">
+            <summary> Called whenever this component's CustomData is updated. </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.SerializeCustomData">
+            <summary>
+            Serialize the transient data you're using into raw binary for storage in the component's custom data. This is implemented nicely for you if you use <see cref="T:LogicWorld.Server.Circuitry.LogicComponent`1"/>
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.DeserializeData(System.Byte[])">
+            <summary>
+            Deserialize the raw binary of the component's custom data into a more usable, transient data structure. This is implemented nicely for you if you use <see cref="T:LogicWorld.Server.Circuitry.LogicComponent`1"/>
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Components.LogicComponent.HasPersistentValues">
+            <summary>
+            False by default; override this to true if the component contain persistent values that must be specially serialized when the component is saved.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.SavePersistentValuesToCustomData">
+            <summary>
+            Apply your persistent values to <see cref="N:LogicAPI.Data"/> in here.
+            If you implement this, make sure you have <see cref="P:LogicAPI.Server.Components.LogicComponent.HasPersistentValues"/> return true.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.OnComponentMoved">
+            <summary> Called whenever the component's position or rotation changes. </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.OnComponentDestroyed">
+            <summary> Called just before the component is removed from the world. </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Components.LogicComponent.Dispose">
+            <summary> Standard C# <see cref="M:System.IDisposable.Dispose"/>. Use this to clean up any remaining references. </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Configuration.IOverrideableGameValues">
+            <summary>
+            Contains config values that can be overridden on per-save config files.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.ServerTPS">
+            <summary>
+            The rate at which the server will update (in ticks per second).
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.SimulationTPS">
+            <summary>
+            The rate at which the simulation will update (in ticks per second). Should be evenly divisible by <see cref="P:LogicAPI.Server.Configuration.IOverrideableGameValues.ServerTPS"/>.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.MaxAllowedTimeStepSeconds">
+            <summary>
+            The maximum length, in seconds, of a single server tick. If the time exceeds this, the simulation will slow down to compensate.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.PauseSimulationWhenServerEmpty">
+            <summary>
+            If <see langword="true"/>, the simulation will be paused when nobody is connected to the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.SaveOnClose">
+            <summary>
+            If <see langword="true"/>, the game will be saved when the server closes.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.SaveWhenServerEmpties">
+            <summary>
+            If <see langword="true"/>, the game will be saved when everybody leaves the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.DoAutosave">
+            <summary>
+            If <see langword="true"/>, the game will be periodically saved.
+            </summary>
+            <seealso cref="P:LogicAPI.Server.Configuration.IOverrideableGameValues.AutosaveIntervalSeconds"/>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.AutosaveIntervalSeconds">
+            <summary>
+            If <see cref="P:LogicAPI.Server.Configuration.IOverrideableGameValues.DoAutosave"/> is <see langword="true"/>, specifies how often the game will be saved.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.DoAutoBackup">
+            <summary>
+            If <see langword="true"/>, the game save file will be periodically backed up.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.AutoBackupIntervalSeconds">
+            <summary>
+            If <see cref="P:LogicAPI.Server.Configuration.IOverrideableGameValues.DoAutoBackup"/> is <see langword="true"/>, specifies how often the save file will be backed up.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.BackupOnSave">
+            <summary>
+            If <see langword="true"/>, a backup will be made each time the game is saved, manually or via auto-save. These backups are in addition to any auto-backups.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.MaxBackups">
+            <summary>
+            If there are already this many backups when a new backup is made, the oldest one will be deleted.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.BackupsPath">
+            <summary>
+            The path in which backups will be made to. Can be relative to the server executable path or an absolute path.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.EnableDiscovery">
+            <summary>
+            If true, server can be discovered by clients that send inquiring pings.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.MOTD">
+            <summary>
+            Message displayed to clients that send a discovery request
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.AnnounceOnLocalNetwork">
+            <summary>
+            Periodically announce to the local network that this server exists. Allows this server to automatically show up in the multiplayer menu of clients on the same local network.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IOverrideableGameValues.AnnounceOnLocalNetworkIntervalSeconds">
+            <summary>
+            How often to send the announcment over the local network.
+            </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Configuration.IGameValues">
+            <summary>
+            Configuration values found on the main server config file.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.DefaultSave">
+            <summary>
+            The save that the server loads when it starts, unless a different save is provided via command line arguments.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.DefaultPort">
+            <summary>
+            The network port to use, unelss a different port is provided via command line arguments.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.InternetProtocolOverride">
+            <summary>
+            Indicates which internet protocol to use for networking.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.MaxPlayers">
+            <summary>
+            If the server has this many players connected, do not allow more players to connect.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.UseWhitelist">
+            <summary>
+            If <see langword="true"/>, only the players in <see cref="P:LogicAPI.Server.Configuration.IGameValues.Whitelisted_IDs"/> can connect to the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.Whitelisted_IDs">
+            <summary>
+            If <see cref="P:LogicAPI.Server.Configuration.IGameValues.UseWhitelist"/> is <see langword="true"/>, only these players will be able to connect to the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.Banned_IDs">
+            <summary>
+            These users are not allowed to connect to the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.Banned_IPs">
+            <summary>
+            Connections from these IPs are denied.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.Admin_IDs">
+            <summary>
+            These users have permission to run commands on the server, and they will recieve the server's console output in their console.
+            If running as an integrated server, the host client is automatically given these permissions.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.VerifiedMode">
+            <summary>
+            If <see langword="true"/>, clients must have an online-verified identity when connecting to the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.UsePassword">
+            <summary>
+            If <see langword="true"/>, incoming connections must supply a <see cref="P:LogicAPI.Server.Configuration.IGameValues.Password"/> in order to connect.
+            Note that while the password is stored in plaintext here, it is only ever sent over the network after being hashed with SHA-256.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.Password">
+            <summary>
+            If <see cref="P:LogicAPI.Server.Configuration.IGameValues.UsePassword"/> is <see langword="true"/>, incoming connections must supply this password in order to connect.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.ChatMessageLengthLimit">
+            <summary>
+            Set to 0 to disable message length limits. Set to -1 to disable player chat entirely.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.PlayerTimeOutMilliseconds">
+            <summary>
+            If we don't hear from a connected client for this amount of time, we'll forcibly disconnect them.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.IGameValues.AllowConnectionsFromADifferentGameVersion">
+            <summary>
+            If this set to true, the server will allow connections from clients of any game version.
+            </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Configuration.Paths">
+            <summary>
+            Contains information about the 
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.Paths.Root">
+            <summary>
+            The root directory of all the files. This contains /saves/, /GameData/, etc.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Configuration.Paths.Saves">
+            <summary>
+            Path to the saves folder, under <see cref="P:LogicAPI.Server.Configuration.Paths.Root"/>.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Configuration.Paths.#ctor(LogicAPI.Server.Configuration.LaunchOptions)">
+            <summary>
+            Instantiates a <see cref="T:LogicAPI.Server.Configuration.Paths"/> instance.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Configuration.Paths.#ctor(System.String)">
+            <summary>
+            Instantiates a <see cref="T:LogicAPI.Server.Configuration.Paths"/> instance.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Configuration.Paths.GetFullPath(System.String)">
+            <summary>
+            Resolves a relative path to a path under <see cref="P:LogicAPI.Server.Configuration.Paths.Root"/>.
+            Equivalent to <code>Path.GetFullPath(Path.Combine(Root, path))</code>
+            </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Events.ComponentDeletedEvent">
+            <summary>
+            Raised when a component is about to be deleted.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Events.ComponentDeletedEvent.Cause">
+            <summary>
+            The cause of the deletion, e.g. has it been deleted by a player?
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Events.ComponentDeletedEvent.Component">
+            <summary>
+            Information about the component that is being deleted.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Events.ComponentDeletedEvent.Address">
+            <summary>
+            Address of the component that's being deleted.
+            </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Events.ComponentPlacedEvent">
+            <summary>
+            Raised when a component is about to be placed.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Events.ComponentPlacedEvent.Cause">
+            <summary>
+            The cause of the placement, e.g. has it been placed by a player?
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Events.ComponentPlacedEvent.Component">
+            <summary>
+            Information about the component that is being placed.
+            </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Networking.NetworkServer">
+            <summary>
+            Represents an abstract network server that handles client connections, as well as sending and receiving packets.
+            </summary>
+        </member>
+        <member name="T:LogicAPI.Server.Networking.NetworkServer.PacketReceivedDelegate">
+            <summary>
+            Used by <see cref="E:LogicAPI.Server.Networking.NetworkServer.PacketReceived"/>.
+            </summary>
+            <param name="typeCode">The type of the packet.</param>
+            <param name="packet">The packet data.</param>
+            <param name="sender">The remote connection that sent this packet.</param>
+        </member>
+        <member name="T:LogicAPI.Server.Networking.NetworkServer.ApprovalRequestedDelegate">
+            <summary>
+            Used by <see cref="E:LogicAPI.Server.Networking.NetworkServer.ApprovalRequested"/>.
+            </summary>
+            <param name="requestPacket">The request data that the client sent.</param>
+            <param name="sender">The remote connection that wants to connect.</param>
+        </member>
+        <member name="T:LogicAPI.Server.Networking.NetworkServer.DiscoveryRequestedDelegate">
+            <summary>
+            Used by <see cref="E:LogicAPI.Server.Networking.NetworkServer.DiscoveryRequested"/>.
+            </summary>
+            <param name="sender">The remote connection that wants to connect.</param>
+        </member>
+        <member name="E:LogicAPI.Server.Networking.NetworkServer.DiscoveryRequested">
+            <summary>
+            Raised when a client sends a discovery request.
+            </summary>
+        </member>
+        <member name="E:LogicAPI.Server.Networking.NetworkServer.ApprovalRequested">
+            <summary>
+            Raised when a client sends a connection approval request.
+            </summary>
+        </member>
+        <member name="E:LogicAPI.Server.Networking.NetworkServer.PacketReceived">
+            <summary>
+            Raised when a packet is received from a client.
+            </summary>
+        </member>
+        <member name="E:LogicAPI.Server.Networking.NetworkServer.RemoteDisconnected">
+            <summary>
+            Raised when a remote client disconnects.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Networking.NetworkServer.ConnectionsCount">
+            <summary>
+            Number of connected remote clients.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Networking.NetworkServer.Port">
+            <summary>
+            The port that the server is listening on or will listen on.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Networking.NetworkServer.Protocol">
+            <summary>
+            The internet protocol being used by the server.
+            </summary>
+        </member>
+        <member name="P:LogicAPI.Server.Networking.NetworkServer.IsAnyClientConnected">
+            <summary>
+            Returns true if <see cref="P:LogicAPI.Server.Networking.NetworkServer.ConnectionsCount"/> is greater than 0.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.OnDiscoveryRequested(System.Net.IPEndPoint,LogicAPI.Networking.Packets.Discovery.DiscoveryResponsePacket)">
+            <summary>
+            Raises the <see cref="E:LogicAPI.Server.Networking.NetworkServer.DiscoveryRequested"/> event.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.OnApprovalRequested(LogicAPI.Networking.Packets.Initialization.ConnectionApprovalPacket,LogicAPI.Server.Networking.ServerConnection)">
+            <summary>
+            Raises the <see cref="E:LogicAPI.Server.Networking.NetworkServer.ApprovalRequested"/> event.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.OnPacketReceived(System.UInt16,System.Object,LogicAPI.Server.Networking.ServerConnection)">
+            <summary>
+            Raises the <see cref="E:LogicAPI.Server.Networking.NetworkServer.PacketReceived"/> event.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.OnRemoteDisconnected(LogicAPI.Server.Networking.ServerConnection)">
+            <summary>
+            Raises the <see cref="E:LogicAPI.Server.Networking.NetworkServer.RemoteDisconnected"/> event.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.Start">
+            <summary>
+            Starts listening for connections.
+            </summary>
+            <param name="protocol">The internet protocol to be used.</param>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.Stop(System.String)">
+            <summary>
+            Stops the server.
+            </summary>
+            <param name="msg">The message to send to clients when disconnecting.</param>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.Process">
+            <summary>
+            Called every server tick, it can be used to send and receive packets.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.GetLocalAddress">
+            <summary>
+            Retrieves the local address of the machine that is hosting this server.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.Send``1(LogicAPI.Networking.Connection,``0,LogicAPI.Networking.NetworkDeliveryMethod)">
+            <summary>
+            Sends a packet to a specific connected client.
+            </summary>
+            <param name="to">The connection to send this through.</param>
+            <param name="packet">The packet to send.</param>
+            <param name="deliveryMethod">The delivery method to use when sending the packet.</param>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.Broadcast``1(``0,LogicAPI.Networking.NetworkDeliveryMethod)">
+            <summary>
+            Sends a packet to all connected clients.
+            </summary>
+            <param name="packet">The packet to send.</param>
+            <param name="deliveryMethod">The delivery method to use when sending the packet.</param>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.SendDiscoveryResponse(LogicAPI.Networking.Packets.Discovery.DiscoveryResponsePacket,LogicAPI.Networking.Connection)">
+            <summary>
+            Responds to a discovery request with information about the server.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.NetworkServer.SendUDP(System.Byte[],System.Net.IPEndPoint)">
+            <summary>
+            Sends a raw UDP datagram to an endpoint.
+            </summary>
+            <param name="data">The data to send.</param>
+            <param name="to">The endpoint to send to.</param>
+            <exception cref="T:System.NotSupportedException">Thrown if the current server implementation doesn't support sending raw UDP data.</exception>
+        </member>
+        <member name="T:LogicAPI.Server.Networking.ServerConnection">
+            <summary>
+            Represents a connection from a client to the local server.
+            </summary>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.ServerConnection.Approve">
+            <summary>
+            Approves the connection when called from the <see cref="E:LogicAPI.Server.Networking.NetworkServer.ApprovalRequested"/> event.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if called when approval was not requested.</exception>
+        </member>
+        <member name="M:LogicAPI.Server.Networking.ServerConnection.Deny(System.String)">
+            <summary>
+            Denies the connection when called from the <see cref="E:LogicAPI.Server.Networking.NetworkServer.ApprovalRequested"/> event.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if called when approval was not requested.</exception>
+        </member>
+        <member name="T:LogicAPI.Server.ServerMod">
+            <summary>
+            The base class for all server mods
+            </summary>
+        </member>
+        <member name="T:LogicWorld.Server.Circuitry.LogicComponent`1">
+            <summary>
+            A variant on <see cref="T:LogicAPI.Server.Components.LogicComponent"/> that contains automatically handled CustomData, including convenient typing.
+            </summary>
+            <typeparam name="TData">Must be an interface type with only get-set properties.</typeparam>
+            <remarks>
+            This is intended for simple components, those with just a few custom data properties. If your component has a huge crazy amount of custom data, like a RAM block,
+            you should probably manage <see cref="P:LogicAPI.Data.ComponentData.CustomData"/> directly.
+            </remarks>
+        </member>
+        <member name="P:LogicWorld.Server.Circuitry.LogicComponent`1.Data">
+            <summary>
+            This component's custom data. To send updates to connected clients, call <see cref="!:LogicComponent.QueueCustomDataSendToClient"/>
+            </summary>
+        </member>
+        <member name="M:LogicWorld.Server.Circuitry.LogicComponent`1.SetDataDefaultValues">
+            <summary>
+            In this method, set all the properties of <see cref="P:LogicWorld.Server.Circuitry.LogicComponent`1.Data"/> to reasonable default values.
+            </summary>
+        </member>
+    </members>
+</doc>
