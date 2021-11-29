@@ -1,5 +1,5 @@
 # HMM
- Hexa's Memory Mod for LogicWorld 0.90.1
+ Hexa's Memory Mod for LogicWorld 0.90.3
  
 ## Memory8bit
 
