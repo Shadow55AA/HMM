@@ -7,7 +7,6 @@ using LogicWorld.Interfaces;
 using LogicWorld.References;
 using LogicWorld.Rendering.Chunks;
 using LogicWorld.Rendering.Components;
-using LogicWorld.SharedCode.Components;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,7 +24,7 @@ namespace HMM.Client
     {
         private static Color24 DefaultColor = new Color24(38, 38, 38);
 
-        private TextMeshPro TextMesh;
+        private LabelTextManager TextManager;
 
         public int SizeX
         {
@@ -71,17 +70,7 @@ namespace HMM.Client
 
         protected override void DataUpdate()
         {
-            TextMesh.text = base.Data.LabelText;
-            TextMesh.fontSizeMax = base.Data.LabelFontSizeMax;
-            TextMesh.color = base.Data.LabelColor.WithOpacity();
-            TextMesh.font = (base.Data.LabelMonospace ? Fonts.NotoMono : Fonts.NotoSans);
-            TextMesh.fontSharedMaterial = (base.Data.LabelMonospace ? Materials.NotoSansMono_WorldSpace : Materials.NotoSans_WorldSpace);
-            TextMesh.ForceMeshUpdate();
-            TextMesh.GetRectTransform().sizeDelta = new Vector2(SizeX, SizeZ) * 0.3f;
-            TextMesh.horizontalAlignment = base.Data.HorizontalAlignment.ToTmpEnum();
-            TextMesh.verticalAlignment = base.Data.VerticalAlignment.ToTmpEnum();
-            TextMesh.enabled = false;
-            TextMesh.enabled = true;
+            TextManager.DataUpdate(base.Data);
         }
 
         protected override void SetDataDefaultValues()
@@ -99,14 +88,15 @@ namespace HMM.Client
         protected override IList<IDecoration> GenerateDecorations()
         {
             GameObject gameObject = Object.Instantiate(Prefabs.ComponentDecorations.LabelText);
-            TextMesh = gameObject.GetComponent<TextMeshPro>();
+            TextManager = gameObject.GetComponent<LabelTextManager>();
             return new Decoration[1]
             {
             new Decoration
             {
                 LocalPosition = new Vector3(-0.5f, Height + 0.01f, -0.5f) * 0.3f,
                 LocalRotation = Quaternion.Euler(90f, 0f, 0f),
-                DecorationObject = gameObject
+                DecorationObject = gameObject,
+                IncludeInModels = true
             }
             };
         }
