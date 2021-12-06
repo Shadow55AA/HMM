@@ -244,3 +244,114 @@ HexROM8bit:
     codeInfoFloats:
         - 1 # height
 
+AsmROM8bit:
+    column: "Logic"
+    
+    # The cube size is set by the clientCode as the label is resized
+    prefab:
+        blocks:
+            -
+                scale: (8,1,8)
+                position: (-0.5, 0, -0.5)
+                mesh: OriginCube
+        inputs:
+# Address
+            -
+                position: (-0.5, 0.5, -0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 7.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+        outputs:
+            -
+                position: (7.5, 0.5, 0)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 1)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 2)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 3)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 4)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 5)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 6)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 7)
+                rotation: (0, 0, -90)
+
+    clientCode: HMM.Client.AsmROM8bit
+    logicCode: HMM.Server.AsmROM8bit
+    placingRules:
+        offsetDimensions: (8, 8)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (8, 8)
+    codeInfoFloats:
+        - 1 # height
+

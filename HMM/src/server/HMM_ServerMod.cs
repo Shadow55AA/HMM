@@ -1,5 +1,7 @@
 ﻿using LogicAPI.Server;
 using LogicAPI.Server.Components;
+using LogicWorld.Server.Circuitry;
+using System;
 
 namespace HMM.Server
 {
@@ -11,31 +13,43 @@ namespace HMM.Server
         }
     }
 
-    public class Memory8bit : LogicComponent
+    public class Memory8bit : LogicComponent<Memory8bit.IData>
     {
-        private byte[] mem = new byte[65536];
+        public interface IData
+        {
+            byte[] mem { get; set; }
+        }
 
         protected override void DoLogicUpdate()
         {
             int address = 0;
-            for(int i=0;i<16;i++)
+            for (int i = 0; i < 16; i++)
             {
                 address += Inputs[i].On ? 1 << i : 0;
             }
-            byte tdata = mem[address];
+            byte tdata = Data.mem[address];
             if (Inputs[24].On)
             {
                 tdata = 0;
                 for (int i = 0; i < 8; i++)
                 {
-                    tdata += Inputs[16+i].On ? (byte)(1 << i) : (byte)0;
+                    tdata += Inputs[16 + i].On ? (byte)(1 << i) : (byte)0;
                 }
-                mem[address] = tdata;
+                Data.mem[address] = tdata;
             }
-            for(int i=0;i<8;i++)
+            for (int i = 0; i < 8; i++)
             {
                 Outputs[i].On = (tdata & (1 << i)) > 0;
             }
+        }
+
+        private bool _HasPersistentValues = true;
+
+        public override bool HasPersistentValues => _HasPersistentValues;
+
+        protected override void SetDataDefaultValues()
+        {
+            Data.mem = new byte[65536];
         }
     }
 
@@ -52,14 +66,15 @@ namespace HMM.Server
                 address += Inputs[i].On ? 1 << i : 0;
             }
             byte output = 0;
-            if (ComponentData.CustomData !=null)
+            if (ComponentData.CustomData != null)
             {
-                if (address*2 + 1 < ComponentData.CustomData[12])
+                int strlen = BitConverter.ToInt32(ComponentData.CustomData,12);
+                if (address * 2 + 1 < strlen)
                 {
                     string tstr = "";
-                    for(int i = 0; i< 2; i++)
+                    for (int i = 0; i < 2; i++)
                         tstr += (char)ComponentData.CustomData[16 + i + address * 2];
-                    output = HexToByte(tstr,address);
+                    output = HexToByte(tstr, address);
                 }
             }
             for (int i = 0; i < 8; i++)
@@ -68,10 +83,10 @@ namespace HMM.Server
             }
         }
 
-        private byte HexToByte(string istr,int addr)
+        private byte HexToByte(string istr, int addr)
         {
             int number;
-            if(istr.Contains("\n"))
+            if (istr.Contains("\n"))
             {
                 Logger.Info("Unexpected new line(\\n) in HexROM, at " + addr + ".");
                 return 0;
@@ -79,6 +94,36 @@ namespace HMM.Server
             if (!int.TryParse(istr, System.Globalization.NumberStyles.HexNumber, null, out number))
                 Logger.Info("Unexpected character in HexROM: \'" + istr + "\' at " + addr + ".");
             return (byte)number;
+        }
+    }
+
+    public class AsmROM8bit : LogicComponent
+    {
+        protected override void DoLogicUpdate()
+        {
+            int address = 0;
+            for (int i = 0; i < 16; i++)
+            {
+                address += Inputs[i].On ? 1 << i : 0;
+            }
+            byte output = 0;
+            if (ComponentData.CustomData != null)
+            {
+                int dataoffset = BitConverter.ToInt32(ComponentData.CustomData, 12) + 32;
+                if (address + dataoffset < ComponentData.CustomData.Length)
+                {
+                    output = ComponentData.CustomData[dataoffset + address];
+                }
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                Outputs[i].On = (output & (1 << i)) > 0;
+            }
+        }
+
+        protected override void OnCustomDataUpdated()
+        {
+            QueueLogicUpdate();
         }
     }
 }
