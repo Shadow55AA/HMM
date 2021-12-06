@@ -134,7 +134,6 @@ namespace HMM.Client
                 ButtonDown = true;
                 if(assembler.Assemble(Data.LabelText, Data.Zdata))
                     Logger.Info(assembler.errormessage);
-                Logger.Info(assembler.errormessage);
                 QueueFrameUpdate();
                 Data.SizeX = Data.SizeX;
             }

@@ -75,13 +75,6 @@ namespace HMM.Client
                 return true;
             if (AssembleProgram(istr,idata))
                 return true;
-
-            /*errormessage += "Instructions: ";
-            for(int i=0;i<instructions.Count;i++)
-            {
-                errormessage += "\n" + instructions[i].signiture + "\n" + instructions[i].machinecode;
-            }
-            return true;*/
             return false;
         }
         
@@ -406,63 +399,77 @@ namespace HMM.Client
                     string[] tokens = linebuilder.ToString().Split(separators, StringSplitOptions.RemoveEmptyEntries);
                     if (tokens.Length > 0)
                     {
-                        if (tokens[0].EndsWith(":"))         // Label
+                        int ti = 0;
+                        if (tokens[ti].EndsWith(":"))         // Label
                         {
-                            tokens[0] = tokens[0].Substring(0, tokens[0].Length - 1);
-                            if (IsNameInvalid(tokens[0]))
+                            tokens[ti] = tokens[ti].Substring(0, tokens[ti].Length - 1);
+                            if (IsNameInvalid(tokens[ti]))
                             {
-                                errormessage = "AsmROM: Invalid Label \"" + tokens[0] + "\" at .prog line " + line + ".";
+                                errormessage = "AsmROM: Invalid Label \"" + tokens[ti] + "\" at .prog line " + line + ".";
                                 return true;
                             }
-                            if (labeldictionary.ContainsKey(tokens[0]))
+                            if (labeldictionary.ContainsKey(tokens[ti]))
                             {
-                                errormessage = "AsmROM: Duplicate Label \"" + tokens[0] + "\" at .prog line " + line + ".";
+                                errormessage = "AsmROM: Duplicate Label \"" + tokens[ti] + "\" at .prog line " + line + ".";
                                 return true;
                             }
-                            labeldictionary.Add(tokens[0], byteoffset);
+                            labeldictionary.Add(tokens[ti], byteoffset);
+                            ti++;
                         }
-                        else    // Instruction
+                        if(tokens.Length > ti)    // Instruction
                         {
-                            string sig = tokens[0];
-                            for (int i = 1; i < tokens.Length; i++)
+                            if (tokens[ti].StartsWith("0x"))  // Data
                             {
-                                if (enumdictionary.ContainsKey(tokens[i]))
+                                tokens[ti] = tokens[ti].Substring(2);
+                                if (IsHexInvalid(tokens[ti]))
                                 {
-                                    EnumStruct tenum = enums[enumdictionary[tokens[i]]];
-                                    sig += "," + tenum.name;
+                                    errormessage = "AsmROM: Invalid Hex at .prog line " + line + ".";
+                                    return true;
                                 }
-                                else if (tokens[i].StartsWith("0x"))
+                                byteoffset += UnityEngine.Mathf.CeilToInt(tokens[ti].Length / 2.0f);
+                            }
+                            else       // Instruction
+                            {
+                                string sig = tokens[ti];
+                                for (int i = ti + 1; i < tokens.Length; i++)
                                 {
-                                    tokens[i] = tokens[i].Substring(2);
-                                    if (IsHexInvalid(tokens[i]))
+                                    if (enumdictionary.ContainsKey(tokens[i]))
                                     {
-                                        errormessage = "AsmROM: Invalid Hex at .prog line " + line + ".";
-                                        return true;
+                                        EnumStruct tenum = enums[enumdictionary[tokens[i]]];
+                                        sig += "," + tenum.name;
                                     }
-                                    int nbits = UnityEngine.Mathf.CeilToInt(tokens[i].Length / 2.0f) * 8;
-                                    sig += ",im" + nbits;
+                                    else if (tokens[i].StartsWith("0x"))
+                                    {
+                                        tokens[i] = tokens[i].Substring(2);
+                                        if (IsHexInvalid(tokens[i]))
+                                        {
+                                            errormessage = "AsmROM: Invalid Hex at .prog line " + line + ".";
+                                            return true;
+                                        }
+                                        int nbits = UnityEngine.Mathf.CeilToInt(tokens[i].Length / 2.0f) * 8;
+                                        sig += ",im" + nbits;
+                                    }
+                                    else
+                                    {
+                                        if (IsNameInvalid(tokens[i]))
+                                        {
+                                            errormessage = "AsmROM: Invalid operand \"" + tokens[i] + "\" at .prog line " + line + ".";
+                                            return true;
+                                        }
+                                        int nbits = UnityEngine.Mathf.CeilToInt(addresslength / 8.0f) * 8;
+                                        sig += ",im" + nbits;
+                                    }
+                                }
+                                if (!instrdictionary.ContainsKey(sig))
+                                {
+                                    errormessage = "AsmROM: Could not find instruction with signiture " + sig + " at .prog line " + line + ".";
+                                    return true;
                                 }
                                 else
                                 {
-                                    if (IsNameInvalid(tokens[i]))
-                                    {
-                                        errormessage = "AsmROM: Invalid operand \"" + tokens[i] + "\" at .prog line " + line + ".";
-                                        return true;
-                                    }
-                                    int nbits = UnityEngine.Mathf.CeilToInt(addresslength / 8.0f) * 8;
-                                    sig += ",im" + nbits;
+                                    InstrStruct tinstr = instructions[instrdictionary[sig]];
+                                    byteoffset += tinstr.length;
                                 }
-                            }
-                            if (!instrdictionary.ContainsKey(sig))
-                            {
-                                errormessage = "AsmROM: Could not find instruction with signiture " + sig + " at .prog line " + line + ".";
-                                return true;
-                            }
-                            else
-                            {
-                                InstrStruct tinstr = instructions[instrdictionary[sig]];
-                                byteoffset += tinstr.length;
-                                errormessage += tinstr.signiture + " " + tinstr.length + "\n";
                             }
                         }
                     }
@@ -506,60 +513,112 @@ namespace HMM.Client
                     string[] tokens = linebuilder.ToString().Split(separators, StringSplitOptions.RemoveEmptyEntries);
                     if (tokens.Length > 0)
                     {
-                        if(tokens[0].EndsWith(":"))         // Label
+                        int ti = 0;
+                        if(tokens[ti].EndsWith(":"))         // Label
                         {
+                            ti++;
                         }
-                        else    // Instruction
+                        if(tokens.Length > ti)    // Instruction
                         {
-                            operands.Clear();
-                            string sig = tokens[0];
-                            for(int i=1; i<tokens.Length; i++)
+                            if (tokens[ti].StartsWith("0x"))     // Data
                             {
-                                if (enumdictionary.ContainsKey(tokens[i]))
+                                tokens[ti] = tokens[ti].Substring(2);
+                                if (IsHexInvalid(tokens[ti]))
                                 {
-                                    EnumStruct tenum = enums[enumdictionary[tokens[i]]];
-                                    sig += "," + tenum.name;
-                                    operands.Add(new Operand(tenum.GetOpCode(tokens[i]), tenum.nbits));
+                                    errormessage = "AsmROM: Invalid Hex at .prog line " + line + ".";
+                                    return true;
                                 }
-                                else if (tokens[i].StartsWith("0x"))
+                                if (TranslateHex(tokens[ti], idata))
+                                    return true;
+                            }
+                            else               // Instruction
+                            {
+                                operands.Clear();
+                                string sig = tokens[ti];
+                                for (int i = ti + 1; i < tokens.Length; i++)
                                 {
-                                    tokens[i] = tokens[i].Substring(2);
-                                    if (IsHexInvalid(tokens[i]))
+                                    if (enumdictionary.ContainsKey(tokens[i]))
                                     {
-                                        errormessage = "AsmROM: Invalid Hex at .prog line " + line + ".";
-                                        return true;
+                                        EnumStruct tenum = enums[enumdictionary[tokens[i]]];
+                                        sig += "," + tenum.name;
+                                        operands.Add(new Operand(tenum.GetOpCode(tokens[i]), tenum.nbits));
                                     }
-                                    int nbits = UnityEngine.Mathf.CeilToInt(tokens[i].Length / 2.0f) * 8;
-                                    sig += ",im" + nbits;
-                                    operands.Add(new Operand(tokens[i], nbits));
+                                    else if (tokens[i].StartsWith("0x"))
+                                    {
+                                        tokens[i] = tokens[i].Substring(2);
+                                        if (IsHexInvalid(tokens[i]))
+                                        {
+                                            errormessage = "AsmROM: Invalid Hex at .prog line " + line + ".";
+                                            return true;
+                                        }
+                                        int nbits = UnityEngine.Mathf.CeilToInt(tokens[i].Length / 2.0f) * 8;
+                                        sig += ",im" + nbits;
+                                        operands.Add(new Operand(tokens[i], nbits));
+                                    }
+                                    else
+                                    {
+                                        if (IsNameInvalid(tokens[i]) || !labeldictionary.ContainsKey(tokens[i]))
+                                        {
+                                            errormessage = "AsmROM: Invalid operand \"" + tokens[i] + "\" at .prog line " + line + ".";
+                                            return true;
+                                        }
+                                        int nbits = UnityEngine.Mathf.CeilToInt(addresslength / 8.0f) * 8;
+                                        sig += ",im" + nbits;
+                                        operands.Add(new Operand(labeldictionary[tokens[i]].ToString("X"), nbits));
+                                    }
+                                }
+                                if (!instrdictionary.ContainsKey(sig))
+                                {
+                                    errormessage = "AsmROM: Could not find instruction with signiture " + sig + " at .prog line " + line + ".";
+                                    return true;
                                 }
                                 else
                                 {
-                                    if (IsNameInvalid(tokens[i])||!labeldictionary.ContainsKey(tokens[i]))
-                                    {
-                                        errormessage = "AsmROM: Invalid operand \"" + tokens[i] + "\" at .prog line " + line + ".";
+                                    InstrStruct tinstr = instructions[instrdictionary[sig]];
+                                    if (TranslateInstruction(tinstr.machinecode, operands, idata))
                                         return true;
-                                    }
-                                    int nbits = UnityEngine.Mathf.CeilToInt(addresslength / 8.0f) * 8;
-                                    sig += ",im" + nbits;
-                                    operands.Add(new Operand(labeldictionary[tokens[i]].ToString("X"),nbits));
                                 }
-                            }
-                            if(!instrdictionary.ContainsKey(sig))
-                            {
-                                errormessage = "AsmROM: Could not find instruction with signiture " + sig + " at .prog line " + line + ".";
-                                return true;
-                            }
-                            else
-                            {
-                                InstrStruct tinstr = instructions[instrdictionary[sig]];
-                                if (TranslateInstruction(tinstr.machinecode, operands, idata))
-                                    return true;
                             }
                         }
                     }
                 }
             }
+            return false;
+        }
+
+        private bool TranslateHex(string istr,byte[] idata)
+        {
+            tokenoutput.Clear();
+            wbyte = 0;
+            bitindex = 0;
+            int number = 0;
+            for (int i = istr.Length - 1; i >= 0; i--)
+            {
+                number = 0;
+                int.TryParse(istr.Substring(i, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
+                for(int j=0;j<4;j++)
+                {
+                    if ((number & (1 << j)) > 0)
+                    {
+                        wbyte = (byte)(wbyte | 1 << bitindex);
+                    }
+                    IncBitIndex();
+                }
+            }
+            if (bitindex != 0)
+                tokenoutput.Add(wbyte);
+            if (isbigendiandata)
+                tokenoutput.Reverse();
+            for (int i = 0; i < tokenoutput.Count; i++)
+            {
+                if (byteoffset + i >= idata.Length)
+                {
+                    errormessage = "AsmROM: Assembled program too large.";
+                    return true;
+                }
+                idata[byteoffset + i] = tokenoutput[i];
+            }
+            byteoffset += tokenoutput.Count;
             return false;
         }
         
@@ -592,9 +651,9 @@ namespace HMM.Client
                             {
                                 int opindex = tokens[j][k] - 0x61;
                                 int number = 0;
-                                int byteindex = 0;
+                                int nibbleindex = 0;
                                 if (ioperands[opindex].value.Length > 0)
-                                    int.TryParse(ioperands[opindex].value.Substring(byteindex, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
+                                    int.TryParse(ioperands[opindex].value.Substring(nibbleindex, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
                                 int opbit = 0;
                                 while (opbit < ioperands[opindex].length)
                                 {
@@ -606,10 +665,10 @@ namespace HMM.Client
                                     opbit++;
                                     if (opbit % 4 == 0)
                                     {
-                                        byteindex++;
+                                        nibbleindex++;
                                         number = 0;
-                                        if (ioperands[opindex].value.Length > byteindex)
-                                            int.TryParse(ioperands[opindex].value.Substring(byteindex, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
+                                        if (ioperands[opindex].value.Length > nibbleindex)
+                                            int.TryParse(ioperands[opindex].value.Substring(nibbleindex, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
                                     }
                                 }
                             }
