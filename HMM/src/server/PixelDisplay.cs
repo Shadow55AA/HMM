@@ -84,7 +84,7 @@ namespace HMM.Server
                 screenwidth = Data.SizeX * 16;
                 screenheight = Data.SizeZ * 16;
             }
-            if(loadfromsave)
+            if(loadfromsave && Data.memdata!=null)
             {
                 MemoryStream stream = new MemoryStream(Data.memdata);
                 stream.Position = 0;
