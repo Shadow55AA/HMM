@@ -92,6 +92,7 @@ namespace HMM.Client
                     SetInputPosition((byte)(i + 32), new Vector3(i * (blocksizex - 0.1f) / 8f - xoffset, -5f / 6f, 4f * (blocksizez - 0.1f) / 6f - zoffset));
                 }
                 SetInputPosition(40, new Vector3(-xoffset, -5f / 6f, 5f * (blocksizez - 0.1f) / 6f - zoffset));
+                SetInputPosition(41, new Vector3((blocksizex - 0.1f) / 8f  - xoffset, -5f / 6f, 5f * (blocksizez - 0.1f) / 6f - zoffset));
             }
         }
 
@@ -156,7 +157,7 @@ namespace HMM.Client
 
         public override PrefabVariantIdentifier GetDefaultComponentVariant()
         {
-            return new PrefabVariantIdentifier(41, 0);
+            return new PrefabVariantIdentifier(42, 0);
         }
 
         public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)

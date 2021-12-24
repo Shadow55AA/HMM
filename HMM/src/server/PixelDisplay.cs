@@ -51,20 +51,42 @@ namespace HMM.Server
         {
             if (Inputs[40].On)
             {
-                int addressx = 0;
-                int addressy = 0;
-                int r = 0, g = 0, b = 0;
-                for (int i = 0; i < 8; i++)
+                if (Inputs[41].On)
                 {
-                    addressx += Inputs[i].On ? 1 << i : 0;
-                    addressy += Inputs[i + 8].On ? 1 << i : 0;
-                    r += Inputs[i + 16].On ? 1 << i : 0;
-                    g += Inputs[i + 24].On ? 1 << i : 0;
-                    b += Inputs[i + 32].On ? 1 << i : 0;
+                    int r = 0, g = 0, b = 0;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        r += Inputs[i + 16].On ? 1 << i : 0;
+                        g += Inputs[i + 24].On ? 1 << i : 0;
+                        b += Inputs[i + 32].On ? 1 << i : 0;
+                    }
+                    for(int i=0;i< screenwidth; i++)
+                    {
+                        for (int j = 0; j < screenheight; j++)
+                        {
+                            mem[(i + j * screenwidth) * 3] = (byte)r;
+                            mem[(i + j * screenwidth) * 3 + 1] = (byte)g;
+                            mem[(i + j * screenwidth) * 3 + 2] = (byte)b;
+                        }
+                    }
                 }
-                mem[(addressx + addressy * screenwidth) * 3] = (byte)r;
-                mem[(addressx + addressy * screenwidth) * 3 + 1] = (byte)g;
-                mem[(addressx + addressy * screenwidth) * 3 + 2] = (byte)b;
+                else
+                {
+                    int addressx = 0;
+                    int addressy = 0;
+                    int r = 0, g = 0, b = 0;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        addressx += Inputs[i].On ? 1 << i : 0;
+                        addressy += Inputs[i + 8].On ? 1 << i : 0;
+                        r += Inputs[i + 16].On ? 1 << i : 0;
+                        g += Inputs[i + 24].On ? 1 << i : 0;
+                        b += Inputs[i + 32].On ? 1 << i : 0;
+                    }
+                    mem[(addressx + addressy * screenwidth) * 3] = (byte)r;
+                    mem[(addressx + addressy * screenwidth) * 3 + 1] = (byte)g;
+                    mem[(addressx + addressy * screenwidth) * 3 + 2] = (byte)b;
+                }
                 ismemdirty = true;
             }
             if (ismemdirty)
