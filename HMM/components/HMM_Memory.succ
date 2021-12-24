@@ -354,4 +354,3 @@ AsmROM8bit:
         gridPlacingDimensions: (8, 8)
     codeInfoFloats:
         - 1 # height
-

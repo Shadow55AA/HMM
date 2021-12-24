@@ -1,0 +1,4 @@
+﻿HMM.Memory8bit          : "RAM"
+HMM.HexROM8bit          : "Hex ROM"
+HMM.AsmROM8bit          : "Assembly ROM"
+HMM.PixelDisplay        : "Pixel Display"
