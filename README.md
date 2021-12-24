@@ -12,3 +12,7 @@ A read only memory component that allows hexadecimal to be entered just like a L
 ## AsmRom8bit
 
 A read only memory component with built in assembler. Instructions with corresponding machine code is specified, along with some configuration parameters, and allow basic assembly language to be converted into different architectures. For more information, refer to the AsmROM manual.
+
+## PixelDisplay
+
+A resizable 24 bit color display. The pins on the back from bottom row to top are x,y,r,g,b,clock. The display can be resized from a minimum of 3x2 up to 16x16. With 16x16 pixels each square, thats 48x32 to 256x256. Input positions outside current size are ignored. It has a refresh rate of 10 fps.
