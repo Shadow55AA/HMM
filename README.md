@@ -1,7 +1,13 @@
 # HMM
- Hexa's Memory Mod for LogicWorld 0.90.3
+ Hexa's Memory Mod for LogicWorld 0.90.3. Version 0.0.2
 
-## MemoryBasic
+## Memory Basic
+
+### Word D Latches and Word Relays
+
+D Latches and Relays for 1 byte, 2 byte, 4 byte, and 8 byte data.
+
+## Memory Modules
  
 ### Memory8bit
 
@@ -14,6 +20,8 @@ A read only memory component that allows hexadecimal to be entered just like a L
 ### AsmRom8bit
 
 A read only memory component with built in assembler. Instructions with corresponding machine code is specified, along with some configuration parameters, and allow basic assembly language to be converted into different architectures. For more information, refer to the AsmROM manual.
+
+## Display
 
 ### PixelDisplay
 
