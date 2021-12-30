@@ -1,5 +1,5 @@
 # HMM
- Hexa's Memory Mod for LogicWorld 0.90.3
+Hexa's Memory Mod for LogicWorld 0.90.3. Version 0.0.1
 
 ## MemoryModules
  
