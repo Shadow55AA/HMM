@@ -431,7 +431,7 @@ WordRelay1Byte:
     column: "Memory"
     category: "Basic"
     prefab: dynamic
-    clientCode: HMM.Client.ClientCode.WordDLatch
+    clientCode: HMM.Client.ClientCode.WordRelay
     logicCode: HMM.Server.LogicCode.WordRelay
     placingRules:
         offsetDimensions: (2, 8)
@@ -445,7 +445,7 @@ WordRelay2Byte:
     column: "Memory"
     category: "Basic"
     prefab: dynamic
-    clientCode: HMM.Client.ClientCode.WordDLatch
+    clientCode: HMM.Client.ClientCode.WordRelay
     logicCode: HMM.Server.LogicCode.WordRelay
     placingRules:
         offsetDimensions: (2, 16)
@@ -459,7 +459,7 @@ WordRelay4Byte:
     column: "Memory"
     category: "Basic"
     prefab: dynamic
-    clientCode: HMM.Client.ClientCode.WordDLatch
+    clientCode: HMM.Client.ClientCode.WordRelay
     logicCode: HMM.Server.LogicCode.WordRelay
     placingRules:
         offsetDimensions: (2, 32)
@@ -473,7 +473,7 @@ WordRelay8Byte:
     column: "Memory"
     category: "Basic"
     prefab: dynamic
-    clientCode: HMM.Client.ClientCode.WordDLatch
+    clientCode: HMM.Client.ClientCode.WordRelay
     logicCode: HMM.Server.LogicCode.WordRelay
     placingRules:
         offsetDimensions: (2, 64)
