@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HMM.Client
 {
@@ -207,7 +209,6 @@ namespace HMM.Client
 
         private bool GetInstructions(string istr)
         {
-            instructions.Clear();
             instrdictionary.Clear();
             linebuilder.Clear();
             // Find Instructions section
@@ -650,8 +651,8 @@ namespace HMM.Client
                             {
                                 int opindex = tokens[j][k] - 0x61;
                                 int number = 0;
-                                int nibbleindex = ioperands[opindex].value.Length-1;
-                                if (nibbleindex >= 0)
+                                int nibbleindex = 0;
+                                if (ioperands[opindex].value.Length > 0)
                                     int.TryParse(ioperands[opindex].value.Substring(nibbleindex, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
                                 int opbit = 0;
                                 while (opbit < ioperands[opindex].length)
@@ -664,9 +665,9 @@ namespace HMM.Client
                                     opbit++;
                                     if (opbit % 4 == 0)
                                     {
-                                        nibbleindex--;
+                                        nibbleindex++;
                                         number = 0;
-                                        if (nibbleindex >= 0)
+                                        if (ioperands[opindex].value.Length > nibbleindex)
                                             int.TryParse(ioperands[opindex].value.Substring(nibbleindex, 1), System.Globalization.NumberStyles.HexNumber, null, out number);
                                     }
                                 }

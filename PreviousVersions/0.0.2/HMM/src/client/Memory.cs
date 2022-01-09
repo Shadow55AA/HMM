@@ -98,7 +98,6 @@ namespace HMM.Client.ClientCode
     {
         public interface IData : Label.IData
         {
-            bool ZButtonDown { get; set; }
             byte[] Zdata { get; set; }
         }
 
@@ -111,6 +110,7 @@ namespace HMM.Client.ClientCode
         protected MeshRenderer VisualButton;
         protected BoxCollider flatCollider;
         protected BoxCollider buttonShapeCollider;
+        private bool ButtonDown = false;
         private bool? previousDown;
         private bool firstDataUpdateOver;
         private static Color24 ButtonColorD = new Color24(255, 0, 0);
@@ -121,15 +121,18 @@ namespace HMM.Client.ClientCode
         {
             if (previousDown == false)
             {
+                ButtonDown = true;
                 if (assembler.Assemble(Data.LabelText, Data.Zdata))
                     Logger.Info(assembler.errormessage);
-                Data.ZButtonDown = true;
+                QueueFrameUpdate();
+                Data.SizeX = Data.SizeX;
             }
         }
 
         public void MousePressUp()
         {
-            Data.ZButtonDown = false;
+            ButtonDown = false;
+            QueueFrameUpdate();
         }
 
         // Text
@@ -189,15 +192,20 @@ namespace HMM.Client.ClientCode
             }
             IsCompiled = false;
             UpdateButtonMaterial();
-            if (base.PlacedInMainWorld && previousDown != Data.ZButtonDown)
+        }
+
+        protected override void FrameUpdate()
+        {
+            UpdateButtonMaterial();
+            if (base.PlacedInMainWorld && previousDown != ButtonDown)
             {
                 if (firstDataUpdateOver)
                 {
-                    SoundPlayer.PlaySoundAt(Data.ZButtonDown ? Sounds.ButtonDown : Sounds.ButtonUp, base.Address);
+                    SoundPlayer.PlaySoundAt(ButtonDown ? Sounds.ButtonDown : Sounds.ButtonUp, base.Address);
                 }
-                Vector3 newLocalPosition = (Data.ZButtonDown ? DownLocalPosition : UpLocalPosition);
+                Vector3 newLocalPosition = (ButtonDown ? DownLocalPosition : UpLocalPosition);
                 TweenDecorationPosition(1, newLocalPosition, 0.04f);
-                previousDown = Data.ZButtonDown;
+                previousDown = ButtonDown;
                 firstDataUpdateOver = true;
             }
         }
@@ -213,18 +221,12 @@ namespace HMM.Client.ClientCode
         // Button
         protected override void OnComponentReRendered()
         {
-            Data.ZButtonDown = false;
+            ButtonDown = false;
         }
 
         protected override void SetDataDefaultValues()
         {
-            base.Data.LabelText = ".prog\n" +
-                "Add D,0x55\n" +
-                ".config\n" +
-                "Reg A,B,C,D\n" +
-                ".instr\n" +
-                "Add Reg,im8\n" +
-                ":100000aa b";
+            base.Data.LabelText = "Enter only hexadecimal.";
             base.Data.LabelFontSizeMax = 0.8f;
             base.Data.LabelColor = DefaultColor;
             base.Data.LabelMonospace = false;
@@ -232,7 +234,6 @@ namespace HMM.Client.ClientCode
             base.Data.VerticalAlignment = LabelAlignmentVertical.Middle;
             base.Data.SizeX = 8;
             base.Data.SizeZ = 8;
-            base.Data.ZButtonDown = false;
             base.Data.Zdata = new byte[65536];
         }
 

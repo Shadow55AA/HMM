@@ -1,0 +1,7 @@
+0.0.3 Changes
+
+Bugfixes:
+1. fixed AsmROM not Assembling program correctly.
+
+Modifications:
+1. changed word relay enable pin and D Latch clock pin to match with vanilla relay and clock pins.

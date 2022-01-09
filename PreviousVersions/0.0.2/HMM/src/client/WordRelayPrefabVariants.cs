@@ -79,7 +79,8 @@ namespace HMM.Client.ClientCode
             inputs.Add(
                 new ComponentInput
                 {
-                    Position = new Vector3(0.5f, 1f, wordSize * 4 - 0.5f)
+                    Position = new Vector3(0.5f, 1f, wordSize * 4 - 0.5f),
+                    Length = 0.6f
                 }
                 );
 

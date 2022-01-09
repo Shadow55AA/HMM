@@ -1,5 +1,4 @@
-﻿using JimmysUnityUtilities;
-using LogicAPI.Server.Components;
+﻿using LogicAPI.Server.Components;
 using LogicWorld.Server.Circuitry;
 using System;
 
@@ -89,23 +88,8 @@ namespace HMM.Server.LogicCode
         }
     }
 
-    public class AsmROM8bit : LogicComponent<AsmROM8bit.IData>
+    public class AsmROM8bit : LogicComponent
     {
-        public interface IData
-        {
-            string LabelText { get; set; }
-            Color24 LabelColor { get; set; }
-            bool LabelMonospace { get; set; }
-            float LabelFontSizeMax { get; set; }
-            int HorizontalAlignment { get; set; }
-            int VerticalAlignment { get; set; }
-            int SizeX { get; set; }
-            int SizeZ { get; set; }
-            bool ZButtonDown { get; set; }
-            byte[] Zdata { get; set; }
-        }
-        private static Color24 DefaultColor = new Color24(38, 38, 38);
-
         protected override void DoLogicUpdate()
         {
             int address = 0;
@@ -116,7 +100,11 @@ namespace HMM.Server.LogicCode
             byte output = 0;
             if (ComponentData.CustomData != null)
             {
-                output = Data.Zdata[address];
+                int dataoffset = BitConverter.ToInt32(ComponentData.CustomData, 12) + 32;
+                if (address + dataoffset < ComponentData.CustomData.Length)
+                {
+                    output = ComponentData.CustomData[dataoffset + address];
+                }
             }
             for (int i = 0; i < 8; i++)
             {
@@ -127,26 +115,6 @@ namespace HMM.Server.LogicCode
         protected override void OnCustomDataUpdated()
         {
             QueueLogicUpdate();
-        }
-
-        protected override void SetDataDefaultValues()
-        {
-            base.Data.LabelText = ".prog\n" +
-                "Add D,0x55\n" +
-                ".config\n" +
-                "Reg A,B,C,D\n" +
-                ".instr\n" +
-                "Add Reg,im8\n" +
-                ":100000aa b";
-            base.Data.LabelFontSizeMax = 0.8f;
-            base.Data.LabelColor = DefaultColor;
-            base.Data.LabelMonospace = false;
-            base.Data.HorizontalAlignment = 1;
-            base.Data.VerticalAlignment = 1;
-            base.Data.SizeX = 8;
-            base.Data.SizeZ = 8;
-            base.Data.ZButtonDown = false;
-            base.Data.Zdata = new byte[65536];
         }
     }
 
