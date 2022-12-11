@@ -1,6 +1,5 @@
 # HMM
- Hexa's Memory Mod for LogicWorld 0.90.3. Version 0.0.4
- Requires System.IO.Compression.dll to be loaded. Can be done with cheeseloader
+ Hexa's Memory Mod for LogicWorld 0.90.3. Version 0.0.2
 
 ## Memory Basic
 

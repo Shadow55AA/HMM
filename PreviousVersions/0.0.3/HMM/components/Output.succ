@@ -1,0 +1,7 @@
+﻿PixelDisplay:
+    column: "Output"
+    category: "Displays"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.PixelDisplay
+    logicCode: HMM.Server.LogicCode.PixelDisplay
+    placingRules: dynamic

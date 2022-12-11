@@ -1,7 +1,5 @@
-0.0.3 Changes
+0.0.4 Changes
 
-Bugfixes:
-1. fixed AsmROM not Assembling program correctly.
+Updated to work on Logic World 0.91 Preview 608
 
-Modifications:
-1. changed word relay enable pin and D Latch clock pin to match with vanilla relay and clock pins.
+Now requires a DLL loading mod such as cheeseloader

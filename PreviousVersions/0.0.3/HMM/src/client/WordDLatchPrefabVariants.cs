@@ -1,6 +1,5 @@
 ﻿using JimmysUnityUtilities;
 using LogicWorld.Interfaces;
-using LogicWorld.References;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode.Components;
 using System.Collections.Generic;
@@ -8,38 +7,38 @@ using UnityEngine;
 
 namespace HMM.Client.ClientCode
 {
-    public class WordRelay1PrefabVariantInfo : WordRelayPrefabVariantBase
+    public class WordDLatch1PrefabVariantInfo : WordDLatchPrefabVariantBase
     {
-        public override string ComponentTextID => "HMM.WordRelay1Byte";
+        public override string ComponentTextID => "HMM.WordDLatch1Byte";
         public override byte wordSize => 1;
     }
 
-    public class WordRelay2PrefabVariantInfo : WordRelayPrefabVariantBase
+    public class WordDLatch2PrefabVariantInfo : WordDLatchPrefabVariantBase
     {
-        public override string ComponentTextID => "HMM.WordRelay2Byte";
+        public override string ComponentTextID => "HMM.WordDLatch2Byte";
         public override byte wordSize => 2;
     }
 
-    public class WordRelay4PrefabVariantInfo : WordRelayPrefabVariantBase
+    public class WordDLatch4PrefabVariantInfo : WordDLatchPrefabVariantBase
     {
-        public override string ComponentTextID => "HMM.WordRelay4Byte";
+        public override string ComponentTextID => "HMM.WordDLatch4Byte";
         public override byte wordSize => 4;
     }
 
-    public class WordRelay8PrefabVariantInfo : WordRelayPrefabVariantBase
+    public class WordDLatch8PrefabVariantInfo : WordDLatchPrefabVariantBase
     {
-        public override string ComponentTextID => "HMM.WordRelay8Byte";
+        public override string ComponentTextID => "HMM.WordDLatch8Byte";
         public override byte wordSize => 8;
     }
 
-    public abstract class WordRelayPrefabVariantBase : PrefabVariantInfo
+    public abstract class WordDLatchPrefabVariantBase : PrefabVariantInfo
     {
         public override abstract string ComponentTextID { get; }
         public abstract byte wordSize { get; }
 
         public override PrefabVariantIdentifier GetDefaultComponentVariant()
         {
-            return new PrefabVariantIdentifier(wordSize * 8 * 2 + 1, 0);
+            return new PrefabVariantIdentifier(wordSize * 8 + 1, wordSize * 8);
         }
 
         public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
@@ -48,14 +47,15 @@ namespace HMM.Client.ClientCode
             blocks.Add(
                 new Block
                 {
-                    RawColor = new Color24(0x7E133B),
+                    RawColor = new Color24(0x349F16),
                     Position = new Vector3(-0.5f, 0, -0.5f),
-                    Scale = new Vector3(2, 1, wordSize * 8),
-                    Mesh = Meshes.OriginCube
+                    Scale = new Vector3(2, 1, wordSize*8),
+                    MeshName = "OriginCube"
                 }
             );
             List<ComponentInput> inputs = new List<ComponentInput>();
-            for (int i = 0; i < wordSize * 8; i++)
+            List<ComponentOutput> outputs = new List<ComponentOutput>();
+            for(int i=0;i<wordSize*8;i++)
             {
                 inputs.Add(
                     new ComponentInput
@@ -65,22 +65,17 @@ namespace HMM.Client.ClientCode
                         Length = 0.6f
                     }
                     );
-            }
-            for (int i = 0; i < wordSize * 8; i++)
-            {
-                inputs.Add(
-                    new ComponentInput
+                outputs.Add(
+                    new ComponentOutput
                     {
-                        Position = new Vector3(1.5f, 0.5f, i),
-                        Rotation = new Vector3(0f, 0f, -90f),
-                        Length = 0.6f
+                        Position = new Vector3(1f, 1f, i)
                     }
                     );
             }
             inputs.Add(
                 new ComponentInput
                 {
-                    Position = new Vector3(0.5f, 1f, wordSize * 4 - 0.5f)
+                    Position = new Vector3(0f, 1f, wordSize * 4 - 0.5f)
                 }
                 );
 
@@ -90,7 +85,7 @@ namespace HMM.Client.ClientCode
                 {
                     Blocks = blocks.ToArray(),
                     Inputs = inputs.ToArray(),
-                    Outputs = new ComponentOutput[] { }
+                    Outputs = outputs.ToArray()
                 }
             };
         }

@@ -1,5 +1,6 @@
 ﻿using JimmysUnityUtilities;
 using LogicWorld.Interfaces;
+using LogicWorld.References;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode.Components;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace HMM.Client.ClientCode
                     RawColor = new Color24(0x349F16),
                     Position = new Vector3(-0.5f, 0, -0.5f),
                     Scale = new Vector3(2, 1, wordSize*8),
-                    MeshName = "OriginCube"
+                    Mesh = Meshes.OriginCube
                 }
             );
             List<ComponentInput> inputs = new List<ComponentInput>();

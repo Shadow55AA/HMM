@@ -2,7 +2,6 @@
 using JimmysUnityUtilities;
 using LogicWorld.ClientCode.Resizing;
 using LogicWorld.Interfaces;
-using LogicWorld.References;
 using LogicWorld.Rendering.Chunks;
 using LogicWorld.Rendering.Components;
 using LogicWorld.Rendering.Dynamics;
@@ -15,7 +14,7 @@ using UnityEngine;
 
 namespace HMM.Client.ClientCode
 {
-    public class PixelDisplay : ComponentClientCode<IPixelDisplayData>, IResizableX, IResizableZ, ICustomCubeArrowHeight, IComponentClientCode
+    public class PixelDisplay : ComponentClientCode<IPixelDisplayData>, IResizableX, IResizableZ, ICustomCubeArrowHeight
     {
         byte[] mem;
 
@@ -192,20 +191,20 @@ namespace HMM.Client.ClientCode
                 new Block
                 {
                     Position = new Vector3(-0.5f, 0f, -0.5f),
-                    Mesh = Meshes.OriginCube,
+                    MeshName = "OriginCube",
                     RawColor = Color24.Black
                 },
                 new Block
                 {
                     Position = new Vector3(-0.45f, 0f, -0.45f),
                     Rotation = new Vector3(180f, 270f, 0f),
-                    Mesh = Meshes.OriginCube_OpenBottom,
+                    MeshName = "OriginCube_OpenBottom",
                     ColliderData = new ColliderData
                     {
                         Transform = new ColliderTransform
                         {
-                            LocalScale = new Vector3(1f, 0.4f, 1f),
-                            LocalPosition = new Vector3(0f, 0.6f, 0f)
+                            Scale = new Vector3(1f, 0.4f, 1f),
+                            Position = new Vector3(0f, 0.6f, 0f)
                         }
                     }
                 }

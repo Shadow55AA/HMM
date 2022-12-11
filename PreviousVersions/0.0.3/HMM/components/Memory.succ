@@ -1,0 +1,481 @@
+#################
+# Memory Module #
+#################
+Memory8bit:
+    column: "Memory"
+    category: "Modules"
+    prefab:
+        blocks:
+            -
+                position: (-0.5,0,-0.5)
+                scale: (2,2,8)
+                color: 349F16
+                mesh: OriginCube
+        inputs:
+# Address
+            -
+                position: (-0.5, 0.5, -0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 7.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+# Data
+            -
+                position: (-0.5, 1.5, 0)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 1)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 2)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 3)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 4)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 5)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 6)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 1.5, 7)
+                rotation: (0, 0, 90)
+                length: 0.6
+# Write
+            -
+                position: (0, 2, 0)
+                length: 0.6
+        outputs:
+            -
+                position: (1, 2, 0)
+            -
+                position: (1, 2, 1)
+            -
+                position: (1, 2, 2)
+            -
+                position: (1, 2, 3)
+            -
+                position: (1, 2, 4)
+            -
+                position: (1, 2, 5)
+            -
+                position: (1, 2, 6)
+            -
+                position: (1, 2, 7)
+    logicCode: HMM.Server.LogicCode.Memory8bit
+    placingRules:
+        offsetDimensions: (2, 8)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 8)
+
+##################
+# Hex ROM Module #
+##################
+HexROM8bit:
+    column: "Memory"
+    category: "Modules"
+    
+    # The cube size is set by the clientCode as the label is resized
+    prefab:
+        blocks:
+            -
+                scale: (8,1,8)
+                position: (-0.5, 0, -0.5)
+                mesh: OriginCube
+        inputs:
+# Address
+            -
+                position: (-0.5, 0.5, -0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 7.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+        outputs:
+            -
+                position: (7.5, 0.5, 0)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 1)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 2)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 3)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 4)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 5)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 6)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 7)
+                rotation: (0, 0, -90)
+
+    clientCode: HMM.Client.ClientCode.HexROM8bit
+    logicCode: HMM.Server.LogicCode.HexROM8bit
+    placingRules:
+        offsetDimensions: (8, 8)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (8, 8)
+    codeInfoFloats:
+        - 1 # height
+        
+##################
+# Asm ROM Module #
+##################
+AsmROM8bit:
+    column: "Memory"
+    category: "Modules"
+    
+    # The cube size is set by the clientCode as the label is resized
+    prefab:
+        blocks:
+            -
+                scale: (8,1,8)
+                position: (-0.5, 0, -0.5)
+                mesh: OriginCube
+        inputs:
+# Address
+            -
+                position: (-0.5, 0.5, -0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 0.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 1.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 2.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 3.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 4.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 5.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 6.75)
+                rotation: (0, 0, 90)
+                length: 0.6
+            -
+                position: (-0.5, 0.5, 7.25)
+                rotation: (0, 0, 90)
+                length: 0.6
+        outputs:
+            -
+                position: (7.5, 0.5, 0)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 1)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 2)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 3)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 4)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 5)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 6)
+                rotation: (0, 0, -90)
+            -
+                position: (7.5, 0.5, 7)
+                rotation: (0, 0, -90)
+
+    clientCode: HMM.Client.ClientCode.AsmROM8bit
+    logicCode: HMM.Server.LogicCode.AsmROM8bit
+    placingRules:
+        offsetDimensions: (8, 8)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (8, 8)
+    codeInfoFloats:
+        - 1 # height
+        
+#######################
+# Word D Latch 1 Byte #
+#######################
+WordDLatch1Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordDLatch
+    logicCode: HMM.Server.LogicCode.WordDLatch
+    placingRules:
+        offsetDimensions: (2, 8)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 8)
+        
+#######################
+# Word D Latch 2 Byte #
+#######################
+WordDLatch2Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordDLatch
+    logicCode: HMM.Server.LogicCode.WordDLatch
+    placingRules:
+        offsetDimensions: (2, 16)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 16)
+        
+#######################
+# Word D Latch 4 Byte #
+#######################
+WordDLatch4Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordDLatch
+    logicCode: HMM.Server.LogicCode.WordDLatch
+    placingRules:
+        offsetDimensions: (2, 32)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 32)
+
+#######################
+# Word D Latch 8 Byte #
+#######################
+WordDLatch8Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordDLatch
+    logicCode: HMM.Server.LogicCode.WordDLatch
+    placingRules:
+        offsetDimensions: (2, 64)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 64)
+        
+        
+#####################
+# Word Relay 1 Byte #
+#####################
+WordRelay1Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordRelay
+    logicCode: HMM.Server.LogicCode.WordRelay
+    placingRules:
+        offsetDimensions: (2, 8)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 8)
+
+#####################
+# Word Relay 2 Byte #
+#####################
+WordRelay2Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordRelay
+    logicCode: HMM.Server.LogicCode.WordRelay
+    placingRules:
+        offsetDimensions: (2, 16)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 16)
+        
+#####################
+# Word Relay 4 Byte #
+#####################
+WordRelay4Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordRelay
+    logicCode: HMM.Server.LogicCode.WordRelay
+    placingRules:
+        offsetDimensions: (2, 32)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 32)
+        
+#####################
+# Word Relay 8 Byte #
+#####################
+WordRelay8Byte:
+    column: "Memory"
+    category: "Basic"
+    prefab: dynamic
+    clientCode: HMM.Client.ClientCode.WordRelay
+    logicCode: HMM.Server.LogicCode.WordRelay
+    placingRules:
+        offsetDimensions: (2, 64)
+        defaultOffset: (0, 0)
+        gridPlacingDimensions: (2, 64)

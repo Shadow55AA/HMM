@@ -1,5 +1,4 @@
 ﻿using JimmysUnityUtilities;
-using LogicAPI.Data;
 using LogicWorld.Audio;
 using LogicWorld.ClientCode;
 using LogicWorld.ClientCode.Decorations;
@@ -13,7 +12,7 @@ using UnityEngine;
 
 namespace HMM.Client.ClientCode
 {
-    public class HexROM8bit : ComponentClientCode<Label.IData>, IColorableClientCode, IComponentClientCode
+    public class HexROM8bit : ComponentClientCode<Label.IData>, IColorableClientCode
     {
         private static Color24 DefaultColor = new Color24(38, 38, 38);
 
@@ -95,7 +94,7 @@ namespace HMM.Client.ClientCode
         }
     }
 
-    public class AsmROM8bit : ComponentClientCode<AsmROM8bit.IData>, IColorableClientCode, IPressableButton, IComponentClientCode
+    public class AsmROM8bit : ComponentClientCode<AsmROM8bit.IData>, IColorableClientCode, IPressableButton
     {
         public interface IData : Label.IData
         {
@@ -181,8 +180,6 @@ namespace HMM.Client.ClientCode
 
         float IColorableClientCode.MinColorValue => 0f;
 
-        public IReadOnlyList<MeshFilter> OutlineWhenInteractableLookedAt { get; private set; }
-
         protected override void DataUpdate()
         {
             TextManager.DataUpdate(base.Data);
@@ -208,9 +205,9 @@ namespace HMM.Client.ClientCode
         private void UpdateButtonMaterial()
         {
             if (IsCompiled)
-                VisualButton.material = WorldRenderer.MaterialsSource.SolidColor(ButtonColorC);
+                VisualButton.material = Materials.StandardColor(ButtonColorC);
             else
-                VisualButton.material = WorldRenderer.MaterialsSource.SolidColor(ButtonColorD);
+                VisualButton.material = Materials.StandardColor(ButtonColorD);
         }
 
         // Button
@@ -288,7 +285,7 @@ namespace HMM.Client.ClientCode
         }
     }
 
-    public class WordDLatch : ComponentClientCode<WordDLatch.IData>, IColorableClientCode, IComponentClientCode
+    public class WordDLatch : ComponentClientCode<WordDLatch.IData>, IColorableClientCode
     {
         public interface IData
         {
@@ -308,11 +305,11 @@ namespace HMM.Client.ClientCode
 
         protected override void DataUpdate()
         {
-            SetBlockColor(Data.Color.ToGpuColor());
+            SetBlockColor(Data.Color);
         }
     }
 
-    public class WordRelay : ComponentClientCode<WordRelay.IData>, IColorableClientCode, IComponentClientCode
+    public class WordRelay : ComponentClientCode<WordRelay.IData>, IColorableClientCode
     {
         public interface IData
         {
@@ -332,7 +329,7 @@ namespace HMM.Client.ClientCode
 
         protected override void DataUpdate()
         {
-            SetBlockColor(Data.Color.ToGpuColor());
+            SetBlockColor(Data.Color);
         }
     }
 }
